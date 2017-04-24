@@ -28,6 +28,7 @@ void setup(){
 	for (uint8_t p = 0; p < 20; p++) {
 		pinMode(p, INPUT_PULLUP);
 	}
+	//create a 4Mhz PWM wave as a clock source for the synth.
 	pinMode(9,OUTPUT);
 	TCCR1A = (1 << COM1A0);
 	TCCR1B = (1 << WGM12) | (1 << CS10);
@@ -36,14 +37,13 @@ void setup(){
 	TIMSK1 = 0;
 
 	ym.init();
-	pinMode(13,OUTPUT);
 	midiToOpl.midi.onProgramChange = [](uint8_t instrument){
-		if(instrument > 0 && instrument < 16){
+		if(instrument < 15){
 			for(int i = 0; i < 9; i++){
-				ym.setInstrument(i, instrument);
+				ym.setInstrument(i, instrument+1);
 			}
 		}else{
-			uint8_t instrumentID = instrument-16;
+			uint8_t instrumentID = instrument-15;
 			Instrument inst = pgmReadData(instruments+instrumentID);
 			ym.loadInstrument(inst);
 			for(int i = 0; i < 9; i++){
@@ -51,10 +51,13 @@ void setup(){
 			}
 		}
 	};
-	midiToOpl.midi.onProgramChange(1);
+	midiToOpl.midi.onProgramChange(2);
+
+	pinMode(13,OUTPUT);
 	digitalWrite(13,1);
 	delay(500);
 	digitalWrite(13,0);
+
 	midiToOpl.init();
 }
 

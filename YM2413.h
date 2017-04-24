@@ -119,6 +119,7 @@ template<typename Writer> struct YM2413 : YMBase<YM2413<Writer>,Writer>{
 		writeRegister(registerData.instrumentSettings[channel]);
 	}
 
+	//The SBI files are actually meant for OPL2/OPL3 but most presets work "fine"
 	void loadInstrument(const Instrument& inst){
 		writeRegister(reinterpret_cast<uint8_t&>(this->registerData.settings1[0]) = inst.modChar);
 		writeRegister(reinterpret_cast<uint8_t&>(this->registerData.settings1[0+1]) = inst.carChar);

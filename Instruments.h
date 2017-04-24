@@ -18,6 +18,7 @@ struct Instrument{ uint8_t
 	feedback;
 };
 
+//instruments ripped from JuceOPLVSTi/Instruments/synth.bbs
 constexpr Instrument instruments[] PROGMEM = {
 	{ 0, 32, 64, 0, 241, 243, 3, 42, 0, 0, 0, },
 	{ 64, 0, 64, 0, 240, 160, 3, 156, 0, 0, 8, },

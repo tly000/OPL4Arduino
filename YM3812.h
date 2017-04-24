@@ -154,6 +154,8 @@ template<typename Writer> struct YM3812 : YMBase<YM3812<Writer>,Writer>{
 
 	#undef _set
 
+	//there were some hints in multiple yamaha datasheets how to calculate the F-Nums manually,
+	//this calculation was derived by some trial and error.
 	void calculateFNumberAndBlock(float frequency,uint8_t& block,uint16_t& fnum){
 		block = log2_fast(frequency) - 4;
 		fnum = frequency * uint32_t(1L << (20L - block)) / SAMPLING_FREQ;

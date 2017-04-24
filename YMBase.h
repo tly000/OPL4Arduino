@@ -16,12 +16,14 @@ enum YMDrum{
 	BASS  = 4
 };
 
+//base class for synth chips.
 template<typename YMDerived,typename Writer> struct YMBase{
 	uint8_t csPin, a0Pin, icPin;
 	Writer w;
 
 	YMBase(uint8_t csPin, uint8_t a0Pin, uint8_t icPin, Writer w = {}):csPin(csPin), a0Pin(a0Pin), icPin(icPin), w(w){}
 
+	//initializes the ic by resetting (pulling the IC pin low) and setting all registers to 0.
 	void init(){
 		w.init();
 
