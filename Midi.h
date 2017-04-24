@@ -3,10 +3,6 @@
 #include <stddef.h>
 #include <Arduino.h>
 
-inline float MIDI_TO_FREQ(int note){
-	return pow(2,(note-57)/12.0) * 440;
-}
-
 template<typename S> struct Midi {
 	Midi(S& serial) : serial(serial) {}
 

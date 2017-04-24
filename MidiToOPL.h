@@ -9,6 +9,10 @@
  *      Author: tly
  */
 
+inline float midiToFreq(int note){
+	return pow(2,(note-57)/12.0) * 440;
+}
+
 inline float pitchBendFreq(float freq,float t,float range) {
 	return freq * pow(2,range * t / 12);
 }
@@ -32,7 +36,7 @@ template<typename Serial,typename YM> struct MidiToOpl{
 				//note already existed, needs rehit.
 				instance->ym.keyOff(noteIndex);
 			}
-			instance->ym.keyOn(noteIndex,pitchBendFreq(MIDI_TO_FREQ(note),instance->pitchBend,instance->pitchBendRange));
+			instance->ym.keyOn(noteIndex,pitchBendFreq(midiToFreq(note),instance->pitchBend,instance->pitchBendRange));
 		};
 		midi.onKeyReleased = [](uint8_t note){
 			if(!instance->sustain){
@@ -51,7 +55,7 @@ template<typename Serial,typename YM> struct MidiToOpl{
 			for(uint8_t i = 0; i < 9; i++){
 				auto& node = instance->noteManager.noteNodes[i];
 				if(node.noteData.note){
-					instance->ym.setFrequency(i,pitchBendFreq(MIDI_TO_FREQ(node.noteData.note),instance->pitchBend,instance->pitchBendRange));
+					instance->ym.setFrequency(i,pitchBendFreq(midiToFreq(node.noteData.note),instance->pitchBend,instance->pitchBendRange));
 				}
 			}
 		};
